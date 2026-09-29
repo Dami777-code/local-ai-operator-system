@@ -1,0 +1,249 @@
+{
+  "captured_at": "2026-09-29T23:31:37.519291+00:00",
+  "runtime": {
+    "version": "0.34.4"
+  },
+  "context_requested": 65536,
+  "temperature": 0,
+  "think": false,
+  "num_predict": 180,
+  "trials_per_case": 1,
+  "cases": [
+    {
+      "id": "exact_instruction",
+      "prompt": "Return exactly ACK_PORTFOLIO and no other text.",
+      "expected": "ACK_PORTFOLIO"
+    },
+    {
+      "id": "strict_json",
+      "prompt": "Return only a JSON object, without Markdown or explanation. Use exactly these keys and values: ticket=\"T-29\", status=\"READY\", owner=\"Mira\".",
+      "expected": {
+        "ticket": "T-29",
+        "status": "READY",
+        "owner": "Mira"
+      }
+    },
+    {
+      "id": "arithmetic",
+      "prompt": "A team has 18 tasks. It completes 7 and then receives 4 new tasks. Return only the integer count remaining.",
+      "expected": "15"
+    },
+    {
+      "id": "native_tool",
+      "prompt": "Look up ticket T-29 using the provided lookup_ticket tool. Do not invent its status.",
+      "expected": {
+        "ticket_id": "T-29"
+      },
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "lookup_ticket",
+            "description": "Read a synthetic ticket by its exact ID.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "ticket_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "ticket_id"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "model": "local-ai-mimo:9b-64k",
+      "case": "exact_instruction",
+      "pass": true,
+      "elapsed_seconds": 15.783,
+      "content": "ACK_PORTFOLIO",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 24,
+      "output_tokens": 6,
+      "load_seconds": 10.602,
+      "generation_tokens_per_second": 19.31,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-mimo:9b-64k",
+          "size": 7960380044,
+          "size_vram": 5490763365,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-mimo:9b-64k",
+      "case": "strict_json",
+      "pass": false,
+      "elapsed_seconds": 6.569,
+      "content": "```json\n{\n  \"ticket\": \"T-29\",\n  \"status\": \"READY\",\n  \"owner\": \"Mira\"\n}\n```",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 46,
+      "output_tokens": 37,
+      "load_seconds": 0.009,
+      "generation_tokens_per_second": 19.25,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-mimo:9b-64k",
+          "size": 7960380044,
+          "size_vram": 5490763365,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-mimo:9b-64k",
+      "case": "arithmetic",
+      "pass": false,
+      "elapsed_seconds": 5.224,
+      "content": "18 - 7 + 4 = 15",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 39,
+      "output_tokens": 13,
+      "load_seconds": 0.008,
+      "generation_tokens_per_second": 19.75,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-mimo:9b-64k",
+          "size": 7960380044,
+          "size_vram": 5490763365,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-mimo:9b-64k",
+      "case": "native_tool",
+      "pass": true,
+      "elapsed_seconds": 6.326,
+      "content": "",
+      "tool_calls": [
+        {
+          "function": {
+            "name": "lookup_ticket",
+            "arguments": {
+              "ticket_id": "T-29"
+            }
+          }
+        }
+      ],
+      "finish_reason": "stop",
+      "prompt_tokens": 293,
+      "output_tokens": 30,
+      "load_seconds": 0.008,
+      "generation_tokens_per_second": 19.01,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-mimo:9b-64k",
+          "size": 7960380044,
+          "size_vram": 5490763365,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-usagi:9b-64k",
+      "case": "exact_instruction",
+      "pass": true,
+      "elapsed_seconds": 15.237,
+      "content": "ACK_PORTFOLIO",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 24,
+      "output_tokens": 6,
+      "load_seconds": 10.346,
+      "generation_tokens_per_second": 20.74,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-usagi:9b-64k",
+          "size": 7661934341,
+          "size_vram": 5505401485,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-usagi:9b-64k",
+      "case": "strict_json",
+      "pass": true,
+      "elapsed_seconds": 5.652,
+      "content": "{\"ticket\": \"T-29\", \"status\": \"READY\", \"owner\": \"Mira\"}",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 46,
+      "output_tokens": 23,
+      "load_seconds": 0.007,
+      "generation_tokens_per_second": 21.74,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-usagi:9b-64k",
+          "size": 7661934341,
+          "size_vram": 5505401485,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-usagi:9b-64k",
+      "case": "arithmetic",
+      "pass": false,
+      "elapsed_seconds": 4.546,
+      "content": "6",
+      "tool_calls": [],
+      "finish_reason": "stop",
+      "prompt_tokens": 39,
+      "output_tokens": 2,
+      "load_seconds": 0.008,
+      "generation_tokens_per_second": 38.37,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-usagi:9b-64k",
+          "size": 7661934341,
+          "size_vram": 5505401485,
+          "context_length": 65536
+        }
+      ]
+    },
+    {
+      "model": "local-ai-usagi:9b-64k",
+      "case": "native_tool",
+      "pass": true,
+      "elapsed_seconds": 6.185,
+      "content": "",
+      "tool_calls": [
+        {
+          "function": {
+            "name": "lookup_ticket",
+            "arguments": {
+              "ticket_id": "T-29"
+            }
+          }
+        }
+      ],
+      "finish_reason": "stop",
+      "prompt_tokens": 293,
+      "output_tokens": 31,
+      "load_seconds": 0.009,
+      "generation_tokens_per_second": 21.45,
+      "loaded_runtime": [
+        {
+          "name": "local-ai-usagi:9b-64k",
+          "size": 7661934341,
+          "size_vram": 5505401485,
+          "context_length": 65536
+        }
+      ]
+    }
+  ],
+  "scope": "Single synthetic provider trials; native tool selection only. No private data or agent execution."
+}

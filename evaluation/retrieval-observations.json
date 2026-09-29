@@ -1,0 +1,36 @@
+{
+  "captured_at": "2026-09-29T23:31:02.775868+00:00",
+  "data": "synthetic only",
+  "existing_index": {
+    "integrity": "ok",
+    "chunks": 284,
+    "vector_backend": "sqlite-vec-0.1.9",
+    "embedding_available": true,
+    "digest_matches": true,
+    "source_status_counts": {
+      "fresh": 6,
+      "changed_missing_or_revoked": 1
+    }
+  },
+  "real_embedding_search": {
+    "pass": true,
+    "vector_backend": "sqlite-vec-0.1.9",
+    "mode": "hybrid",
+    "indexed_chunks": 1,
+    "citation_lines": [
+      1,
+      2
+    ]
+  },
+  "changed_source_excluded": {
+    "pass": true
+  },
+  "reindex_updated_value": {
+    "pass": true,
+    "changed_files": 1
+  },
+  "simulated_embedding_outage": {
+    "pass": true,
+    "mode": "keyword_only_degraded"
+  }
+}
