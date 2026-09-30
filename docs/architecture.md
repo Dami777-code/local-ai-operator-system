@@ -2,6 +2,21 @@
 
 Snapshot: September 29, 2026. Windows owns the active Hermes/Ollama runtime. WSL holds development checkouts and older operating documentation. The system uses existing Hermes Agent and model runtimes; this case study does not claim authorship of those frameworks or model training.
 
+## System overview
+
+```mermaid
+flowchart TD
+    I["CLI, installed Desktop, connected Telegram adapter"] --> H["Hermes Agent profiles"]
+    H --> O["Ollama: MiMo and Qwen"]
+    H --> K["Bounded local knowledge tools"]
+    K --> D["SQLite FTS5 and sqlite-vec"]
+    K --> E["Local nomic embeddings through Ollama"]
+    H --> W["Manually dispatched Kanban worker"]
+    W --> O
+```
+
+The diagram distinguishes installed/configured interfaces from tested workflows. Telegram connectivity was observed; a fresh inbound message-to-model-to-reply exchange remains unverified. Desktop is installed and selects the primary profile, but its GUI was not exercised in this verification pass.
+
 ## Authority and profiles
 
 The root configuration is not sufficient to describe every interface. Root/default selects Qwen, while the installed Desktop selects the named `usagi` profile, which currently selects MiMo. Root Telegram is disabled; the named profile's Telegram adapter reports connected. Ignoring profile scope would produce the wrong account of the live system.
@@ -47,3 +62,33 @@ The 8 GB-class GPU motivates sequential model loading. Bonsai is a separate on-d
 - Historical timeout-cleanup and retrieval-answer tests do not automatically apply to today's revision/model pairing.
 
 These discrepancies are reported rather than silently treated as reconciled. This publication did not modify the live configuration, upgrade packages, repair scripts, or enable automation.
+
+## Model strategy
+
+| Model | Current use | Evidence and limit |
+|---|---|---|
+| MiMo-V2.6-Distill-Qwen 9B, Q4_K_M | Primary `usagi` interface and worker/coder/researcher profiles | Fresh local inference and native tool selection; exact-output failures recorded |
+| Qwen 3.5 9B-class, Q4_K_M | Comparison and restricted inspection profiles | Fresh local inference; JSON pass and arithmetic failure recorded |
+| Bonsai 2 27B, PTQ1_0 | Separate, on-demand reviewer profile | Model files present; earlier same-day service probes documented; stopped during this pass |
+
+MiMo's multiple rollback aliases represent experiments with the same model family. They are not separate agents or additional independent models.
+
+Both tested Ollama aliases loaded with a **65,536-token context allocation**. This establishes runner configuration, not reliable reasoning throughout that context. Tests used one heavy inference workload at a time. A reviewer profile is a role assignment, not a claim that its reviews are correct.
+
+## Hardware and operational observations
+
+The machine has a Core Ultra 9 185H CPU, approximately **31.5 GiB usable RAM**, and an **RTX 4070 Laptop GPU with 8,188 MiB VRAM**. During the fresh probes, Ollama reported approximately 5.1 GiB of model VRAM allocation for each tested alias. This is an observed allocation, not peak total GPU use.
+
+First responses took about 15 seconds, including roughly 10 seconds loading; subsequent short cases took approximately 4.5–6.6 seconds. Timing depends on output length, loading, and machine state. These measurements do not establish a general throughput ranking.
+
+Automatic Kanban dispatch is disabled. Earlier worker runs demonstrated that a configured time limit is not necessarily enforced without dispatcher ticks, and a successful file read does not guarantee an honest completion summary. Foreground supervision and artifact checks remain necessary.
+
+The audit also found stale model-switch scripts and a llama-swap catalog advertising models whose configured payloads were absent. Those are unresolved operational assets, not claimed working model deployments. See [lessons and troubleshooting](lessons-learned.md).
+
+## Status at the recorded snapshot
+
+**Verified:** local MiMo/Qwen inference, configured role separation, running Hermes gateway, connected named Telegram adapter, synthetic retrieval and provenance checks, and synthetic adapter boundaries.
+
+**Experimental or incomplete:** current end-to-end Telegram replies, reliable role handoffs, unattended work, strict runtime enforcement, current MiMo-mediated retrieval answers, live Shisa mutations, browser workflows, and memory save/recall validation. n8n integration is not established. Computer use is unavailable because its required driver is not installed.
+
+AI coding assistants, including Codex and Claude, assisted development. The work described here is system integration, evaluation, and operation using third-party frameworks and models.
